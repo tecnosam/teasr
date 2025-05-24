@@ -74,6 +74,14 @@ int main() {
     Instruction * instruction_set = get_instruction_set(buffer, filesize);
     printf("\nNumber of instructions: %d\n", count_instructions(instruction_set));
 
+    Instruction * iterator;
+    iterator = instruction_set;
+
+    while (iterator != NULL) {
+        printf("%c executed %d times\n", *((char *)iterator->instruction_type), (int) iterator->count);
+        iterator = iterator->next_instruction;
+    }
+
     free(buffer);
     return 0;
 
