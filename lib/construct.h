@@ -15,6 +15,7 @@ typedef struct Instruction {
     unsigned long count;  // number of times to execute instruction
     struct Instruction * nested_instructions;
     struct Instruction * next_instruction;
+    struct Instruction * last_instruction;
 } Instruction;
 
 
@@ -24,7 +25,7 @@ char is_instruction(unsigned char c) {
 }
 
 
-Instruction * create_instruction(enum InstructionType * instruction_type, unsigned long count) {
+Instruction * create_instruction(enum InstructionType * instruction_type, unsigned long count, Instruction * last_instruction) {
 
     Instruction * instruction = (Instruction *)malloc(sizeof(Instruction));
 
@@ -35,33 +36,39 @@ Instruction * create_instruction(enum InstructionType * instruction_type, unsign
     instruction->count = 1;
     instruction->nested_instructions = NULL;
     instruction->next_instruction = NULL;
+    instruction->last_instruction = last_instruction;
 
     return instruction;
 }
 
 
-Instruction * append_to_instruction(Instruction * head, Instruction * next) {
+Instruction * backtrack_instructions(Instruction * tail) {
 
-    if (next == NULL) {
-        return head;
-    }
-    if (head == NULL) {
-        return next;
+    Instruction * iterator = tail;
+
+    while (iterator != NULL) {
+
+        if (iterator->last_instruction == NULL) {
+            return iterator;
+        }
+
+        iterator->last_instruction->next_instruction = iterator;
+        iterator = iterator->last_instruction;
     }
 
-    head->next_instruction = append_to_instruction(head->next_instruction, next);
-    return head;
+    return NULL;
 }
 
 
 Instruction * get_instruction_set(unsigned char * source, long n_chars) {
 
-    Instruction * instruction, * next_instruction;
-    enum InstructionType * iterator, * prev_value;
+    Instruction * instruction, * last_instruction;
+    enum InstructionType * current_value, * prev_value;
 
+    last_instruction = NULL;
     instruction = NULL;
-    next_instruction = NULL;
-    iterator = NULL;
+
+    current_value = NULL;
     prev_value = NULL;
 
     for (long i = 0; i < n_chars; i++) {
@@ -71,35 +78,36 @@ Instruction * get_instruction_set(unsigned char * source, long n_chars) {
         }
 
         // get current instruction
-        iterator = (enum InstructionType *)(source + i);
+        current_value = (enum InstructionType *)(source + i);
 
-        if (instruction == NULL) {
+        if (last_instruction == NULL) {
 
-            instruction = create_instruction(iterator, 1);
-            if (instruction == NULL) {
+            last_instruction = create_instruction(current_value, 1, NULL);
+            if (last_instruction == NULL) {
                 // Without this, we get an infinite loop if system is out of memory
                 break;
             }
-            printf("\nFirst instruction set up\n");
-            prev_value = iterator;
-            continue;
 
+            // only one instruction
+            last_instruction = last_instruction;
+            prev_value = current_value;
+            continue;
         }
 
         // if the instruction is the same
-        if ((char)*prev_value == (char)*iterator) {
+        if ((char)*prev_value == (char)*current_value) {
             // just increase the instruction counter
-            printf("Increasing count of current instruction\n\n");
-            instruction->count++;
+            // TODO: fix this, it should increment the last element in linked list
+            last_instruction->count++;
             continue;
         }
 
-        printf("Need to pipe %c %c \n\n", (char)*iterator, (char)*prev_value);
-        append_to_instruction(instruction, create_instruction(iterator, 1));
-        prev_value = iterator;
+        instruction = create_instruction(current_value, 1, last_instruction);
+        last_instruction = instruction;
+        prev_value = current_value;
     }
 
-    return instruction;
+    return backtrack_instructions(last_instruction);
 }
 
 
