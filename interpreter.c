@@ -1,8 +1,8 @@
 
 #include <stdlib.h>
 
-#include "lib/myio.h"
-#include "lib/construct.h"
+#include "lib/loader.h"
+#include "lib/executor.h"
 
 
 long get_file_size(FILE *file) {
@@ -81,6 +81,10 @@ int main() {
         printf("%c executed %d times\n", *((char *)iterator->instruction_type), (int) iterator->count);
         iterator = iterator->next_instruction;
     }
+
+    iterator = instruction_set;
+    init_instruction_handlers();
+    process_instructions(iterator);
 
     free(buffer);
     return 0;

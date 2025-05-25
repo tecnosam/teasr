@@ -4,6 +4,7 @@
 char readc() {
     char c;
     scanf(" %c", &c);
+    return c;
 }
 
 char printc(char c) {
