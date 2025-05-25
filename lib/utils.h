@@ -1,3 +1,7 @@
+#ifndef UTILITY_LIB
+
+#define UTILITY_LIB 1
+
 #define MEMORY_CELL_SIZE 30000
 #define UTILS_LOADED 1
 
@@ -50,3 +54,6 @@ void set_current_byte(char c) {
     // TODO: this might not make so much sense if variable c is signed
     *(MEMORY_CELL + universal_pointer) = (unsigned char)c;
 }
+
+
+#endif

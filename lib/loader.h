@@ -1,8 +1,9 @@
-#include <stdlib.h>
+#ifndef LOADER_LOADED
 
-#ifndef CONSTRUCT_LOADED
-    #include "construct.h"
-#endif
+#define LOADER_LOADED 1
+
+#include <stdlib.h>
+#include "construct.h"
 
 
 /*
@@ -127,3 +128,5 @@ int count_instructions(Instruction * instruction) {
 
     return 1 + count_instructions(instruction->next_instruction);
 }
+
+#endif

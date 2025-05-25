@@ -1,3 +1,6 @@
+#ifndef MYIO
+
+#define MYIO 1
 #include <stdio.h>
 
 
@@ -10,3 +13,5 @@ char readc() {
 char printc(char c) {
     printf("%c", c);
 }
+
+#endif

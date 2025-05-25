@@ -1,3 +1,4 @@
+#ifndef CONSTRUCT_LOADED
 #define CONSTRUCT_LOADED 1
 
 enum InstructionType {
@@ -33,3 +34,5 @@ const enum InstructionType instruction_types[] = {
 };
 
 #define INSTRUCTION_TYPE_COUNT (sizeof(instruction_types) / sizeof(instruction_types[0]))
+
+#endif

@@ -1,10 +1,8 @@
-#ifndef CONSTRUCT_LOADED
-    #include "construct.h"
-#endif
 
+#include "construct.h"
 #include "myio.h"
+#include "utils.h"
 #ifndef UTILS_LOADED
-    #include "utils.h"
 #endif
 
 
