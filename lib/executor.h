@@ -2,12 +2,12 @@
     #include "construct.h"
 #endif
 
+#include "myio.h"
 #ifndef UTILS_LOADED
     #include "utils.h"
 #endif
 
 
-#include "myio.h"
 
 
 typedef void (*InstructionHandler)(Instruction* instruction);
@@ -38,12 +38,12 @@ void init_instruction_handlers() {
 
 
 void process_instructions(Instruction* instruction) {
-    enum InstructionType * instruction_type;
+    enum InstructionType instruction_type;
     InstructionHandler handler;
     
     while (instruction != NULL) {
         instruction_type = instruction->instruction_type;
-        handler = instruction_handlers[*(char *)instruction_type];
+        handler = instruction_handlers[(char)instruction_type];
         if (handler != NULL) {
             handler(instruction);
         }

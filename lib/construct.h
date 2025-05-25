@@ -13,7 +13,7 @@ enum InstructionType {
 
 
 typedef struct Instruction {
-    enum InstructionType * instruction_type;
+    enum InstructionType instruction_type;
     unsigned long count;  // number of times to execute instruction
     struct Instruction * nested_instructions;
     struct Instruction * next_instruction;

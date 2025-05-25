@@ -78,7 +78,7 @@ int main() {
     iterator = instruction_set;
 
     while (iterator != NULL) {
-        printf("%c executed %d times\n", *((char *)iterator->instruction_type), (int) iterator->count);
+        printf("%c executed %d times\n", (char)iterator->instruction_type, (int) iterator->count);
         iterator = iterator->next_instruction;
     }
 

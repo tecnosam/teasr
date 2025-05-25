@@ -20,7 +20,7 @@
 
 char is_instruction(unsigned char c);
 int count_instructions(Instruction * instruction);
-Instruction * create_instruction(enum InstructionType * instruction_type, unsigned long count, Instruction * last_instruction);
+Instruction * create_instruction(enum InstructionType instruction_type, unsigned long count, Instruction * last_instruction);
 Instruction * backtrack_instructions(Instruction * tail);
 Instruction * get_instruction_set(unsigned char * source, long n_chars);
 
@@ -28,13 +28,10 @@ Instruction * get_instruction_set(unsigned char * source, long n_chars);
 Instruction * get_instruction_set(unsigned char * source, long n_chars) {
 
     Instruction * instruction, * last_instruction;
-    enum InstructionType * current_value, * prev_value;
+    enum InstructionType current_value, prev_value;
 
     last_instruction = NULL;
     instruction = NULL;
-
-    current_value = NULL;
-    prev_value = NULL;
 
     for (long i = 0; i < n_chars; i++) {
 
@@ -43,7 +40,7 @@ Instruction * get_instruction_set(unsigned char * source, long n_chars) {
         }
 
         // get current instruction
-        current_value = (enum InstructionType *)(source + i);
+        current_value = (enum InstructionType)*(source + i);
 
         if (last_instruction == NULL) {
 
@@ -60,7 +57,7 @@ Instruction * get_instruction_set(unsigned char * source, long n_chars) {
         }
 
         // if the instruction is the same
-        if ((char)*prev_value == (char)*current_value) {
+        if ((char)prev_value == (char)current_value) {
             // just increase the instruction counter
             // TODO: fix this, it should increment the last element in linked list
             last_instruction->count++;
@@ -88,7 +85,7 @@ char is_instruction(unsigned char c) {
 }
 
 
-Instruction * create_instruction(enum InstructionType * instruction_type, unsigned long count, Instruction * last_instruction) {
+Instruction * create_instruction(enum InstructionType instruction_type, unsigned long count, Instruction * last_instruction) {
 
     Instruction * instruction = (Instruction *)malloc(sizeof(Instruction));
 
@@ -125,10 +122,6 @@ Instruction * backtrack_instructions(Instruction * tail) {
 
 int count_instructions(Instruction * instruction) {
     if (instruction == NULL) {
-        return 0;
-    }
-
-    if (instruction->instruction_type == NULL) {
         return 0;
     }
 
