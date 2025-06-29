@@ -60,20 +60,20 @@ int main(int argc, char *argv[]) {
 
     fclose(file);
 
-    for (long i = 0; i < filesize; ++i) {
-        printf("%02x ", buffer[i]);
-    }
+    // for (long i = 0; i < filesize; ++i) {
+    //     printf("%02x ", buffer[i]);
+    // }
 
     Instruction *instruction_set = get_instruction_set(buffer, filesize);
     printf("\nNumber of instructions: %d\n", count_instructions(instruction_set));
 
     Instruction *iterator = instruction_set;
-    while (iterator != NULL) {
-        printf("%c executed %d times\n", (char)iterator->instruction_type, (int)iterator->count);
-        iterator = iterator->next_instruction;
-    }
+    // while (iterator != NULL) {
+    //     printf("%c to be executed %d times\n", (char)iterator->instruction_type, (int)iterator->count);
+    //     iterator = iterator->next_instruction;
+    // }
+    // iterator = instruction_set;
 
-    iterator = instruction_set;
     init_instruction_handlers();
     process_instructions(iterator);
 
